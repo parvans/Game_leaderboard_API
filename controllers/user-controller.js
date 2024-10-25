@@ -141,11 +141,31 @@ export const getAllPlayers=async(req,res)=>{
     const rankedPlayers=getPlayers?.map((player,index)=>({
         rank: player.score > 0 ? index + 1 : 'N/A',
         name: player.name,
-        score:player.score
+        score:player.score,
+        _id:player._id
 
     }));
 
     return ReS(res, { data: rankedPlayers }, HttpStatus.OK);
+
+}
+
+export const getPlayerById=async(req,res)=>{
+    let err;
+    const playerId=req.params.id;
+    let player;
+
+    [err,player]=await too(Player.findById(playerId).populate({path:'author',select:'name email'}));
+
+    if (err) {
+        return ReE(res, err, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    if(isNull(player)){
+        return ReS(res,{ message: "Player Not Found"},HttpStatus.BAD_REQUEST);
+    }
+
+    return ReS(res,{ message: "Player Found",data:player},HttpStatus.OK);
 
 }
 
