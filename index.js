@@ -22,6 +22,9 @@ app.use(express.json());
 app.get("/", (req, res) => {
     res.json({ message: "Welcome to the Game leaderboard API" });
 });
+app.get("/test",(req, res) => {
+    res.json({ message: "Welcome testt" });
+})
 
 // database
 connectDB()
