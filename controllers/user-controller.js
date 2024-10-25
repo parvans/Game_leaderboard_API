@@ -175,5 +175,30 @@ export const userProfile=async(req,res)=>{
 export const updatePlayerScore=async(req,res)=>{
     let err;
     const playerId=req.params.id;
-    let blogExist;
+    let playerExist;
+
+    [err,playerExist]=await too(Player.findById(playerId));
+
+    if (err) {
+        return ReE(res, err, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    if(isNull(playerExist)){
+        return ReS(res,{ message: "Player Not Found"},HttpStatus.BAD_REQUEST);
+    }
+
+    let updatePlayer;
+    [err,updatePlayer]=await too(Player.findByIdAndUpdate(playerId,req.body,{new:true}));
+
+    if (err) {
+        return ReE(res, err, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    if(isNull(updatePlayer)){
+        return ReS(res,{ message: "Player is updated"},HttpStatus.BAD_REQUEST);
+    }
+
+    return ReS(res,{ message: "Player updated successfully"},HttpStatus.OK);
+
+
 }

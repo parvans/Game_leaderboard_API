@@ -13,6 +13,6 @@ router.post("/player",[verifyToken,veriftyAdmin],registerPlayer);
 
 router.post("/login",userLogin);
 
-router.put("/player",verifyToken,updatePlayerScore);
+router.put("/player/:id",verifyToken,updatePlayerScore);
 
 export default router;
