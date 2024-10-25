@@ -9,7 +9,13 @@ import players from "./routes/player.routes.js";
 dotenv.config();
 const app = express();
 
-app.use(cors());
+const corconfig={
+    origin:"*",
+    credential:true,
+    methods:["GET","POST","PUT","DELETE"]
+}
+
+app.use(cors(corconfig));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.json());
